@@ -1,6 +1,6 @@
 import React, {useState} from 'react';
 import {useDispatch} from 'react-redux';
-import {fetchDay} from './actions';
+import {fetchDay, newMemory} from './actions';
 
 
 export function Toolbar() {
@@ -11,7 +11,9 @@ export function Toolbar() {
 
   return (
     <div className="toolbar">
-      {/* ... */}
+      <button
+        onClick={() => dispatch(newMemory(today.getFullYear(), month, day))}
+      >New Memory</button>
       <div className="month-day-picker">
         <select
           value={month}

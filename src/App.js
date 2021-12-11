@@ -9,10 +9,10 @@ function App() {
   const memories = useSelector(state => state.memories);
   const dispatch = useDispatch();
 
-  // useEffect(() => {
-  //   const today = new Date();
-  //   dispatch(fetchDay(today.getMonth() + 1, today.getDate()));
-  // }, [dispatch]);
+  useEffect(() => {
+    const today = new Date();
+    dispatch(fetchDay(today.getMonth() + 1, today.getDate()));
+  }, [dispatch]);
 
   return (
     <div className="App">

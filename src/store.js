@@ -42,6 +42,11 @@ function reducer(state, action) {
           }
         }),
       };
+    case Action.AddMemory:
+      return {
+        ...state,
+        memories: [action.payload, ...state.memories],
+      };
     default:
       return state;
   }

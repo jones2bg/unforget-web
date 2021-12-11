@@ -43,11 +43,60 @@ export function saveMemoryEdit(memory) {
   };
 }
 
+export function newMemory(year, month, day) {
+  const memory = {
+    year,
+    month,
+    day,
+    entry: '',
+  };
+
+  return dispatch => {
+    const options = {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(memory),
+    };
+    fetch(`https://unforget-api.csblake.me:8443/memories`, options)
+      .then(assertResponse)
+      .then(response => response.json())
+      .then(data => {
+        if (data.ok) {
+          dispatch(addMemory({
+            ...memory,
+            id: data.results,
+            isEditing: true,
+          }));
+        }
+      });
+  };
+}
+
+export function deleteMemory(id) {
+  return dispatch => {
+    const options = {
+      method: 'DELETE',
+    };
+    fetch(`https://unforget-api.csblake.me:8443/memories/${id}`, options)
+      .then(assertResponse)
+      .then(response => response.json())
+      .then(data => {
+        if (data.ok) {
+          dispatch(removeMemory(id));
+        }
+      });
+  };
+}
+
 export const Action = Object.freeze({
   ShowMemories: 'ShowMemories',
   StartMemoryEdit: 'StartMemoryEdit',
   CancelMemoryEdit: 'CancelMemoryEdit',
   ReplaceMemory: 'ReplaceMemory',
+  AddMemory: 'AddMemory',
+  RemoveMemory: 'RemoveMemory',
 });
 
 export function startMemoryEdit(id) {
@@ -56,6 +105,14 @@ export function startMemoryEdit(id) {
 
 export function cancelMemoryEdit(id) {
   return {type: Action.CancelMemoryEdit, payload: id};
+}
+
+export function addMemory(memory) {
+  return {type: Action.AddMemory, payload: memory};
+}
+
+export function removeMemory(id) {
+  return {type: Action.RemoveMemory, payload: id};
 }
 
 export function showMemories(memories) {
