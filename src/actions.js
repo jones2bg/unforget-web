@@ -8,7 +8,7 @@ function assertResponse(response) {
 
 export function fetchDay(month, day) {
   return dispatch => {
-    fetch(`https://csblake.me:8443/memories/${month}/${day}`)
+    fetch(`https://unforget-api.csblake.me:8443/memories/${month}/${day}`)
       .then(assertResponse)
       .then(response => response.json())
       .then(data => {
