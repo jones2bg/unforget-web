@@ -1,4 +1,4 @@
-import {Fragment} from 'react';
+import React, {Fragment} from 'react';
 
 export function Memory(props) {
   const {memory} = props;
