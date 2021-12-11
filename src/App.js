@@ -1,23 +1,24 @@
-import logo from './logo.svg';
 import './App.css';
+import {useSelector, useEffect, useDispatch} from 'react-redux';
+import {Memory} from './Memory';
+import {fetchDay} from './actions';
 
 function App() {
+  const memories = useSelector(state => state.memories);
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    const today = new Date();
+    dispatch(fetchDay(today.getMonth() + 1, today.getDate()));
+  }, [dispatch]);
+
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <div className="memories">
+        {memories.map(memory =>
+          <Memory key={memory.id} memory={memory} />
+        )}
+      </div>
     </div>
   );
 }
