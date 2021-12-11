@@ -21,10 +21,33 @@ export function fetchDay(month, day) {
   };
 }
 
+export function saveMemoryEdit(memory) {
+  return dispatch => {
+    const options = {
+      method: 'PATCH',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(memory),
+    };
+    fetch(`https://unforget-api.csblake.me:8443/memories/${memory.id}`, options)
+      .then(assertResponse)
+      .then(response => response.json())
+      .then(data => {
+        if (data.ok) {
+          dispatch(replaceMemory({...memory, isEditing: false}));
+        } else {
+          console.error(data);
+        }
+      });
+  };
+}
+
 export const Action = Object.freeze({
   ShowMemories: 'ShowMemories',
   StartMemoryEdit: 'StartMemoryEdit',
   CancelMemoryEdit: 'CancelMemoryEdit',
+  ReplaceMemory: 'ReplaceMemory',
 });
 
 export function startMemoryEdit(id) {
@@ -37,4 +60,8 @@ export function cancelMemoryEdit(id) {
 
 export function showMemories(memories) {
   return {type: Action.ShowMemories, payload: memories};
+}
+
+export function replaceMemory(memory) {
+  return {type: Action.ReplaceMemory, payload: memory};
 }

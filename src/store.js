@@ -31,6 +31,17 @@ function reducer(state, action) {
           }
         }),
       };
+    case Action.ReplaceMemory:
+      return {
+        ...state,
+        memories: state.memories.map(memory => {
+          if (memory.id === action.payload.id) {
+            return action.payload;
+          } else {
+            return memory;
+          }
+        }),
+      };
     default:
       return state;
   }

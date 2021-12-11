@@ -1,6 +1,6 @@
 import React, {Fragment, useState} from 'react';
 import {useDispatch} from 'react-redux';
-import {startMemoryEdit, cancelMemoryEdit} from './actions';
+import {startMemoryEdit, cancelMemoryEdit, saveMemoryEdit} from './actions';
 
 export function Memory(props) {
   const {memory} = props;
@@ -25,7 +25,7 @@ export function Memory(props) {
           <span className="year">{memory.year}</span>
           <span className="month-day">{monthDay}</span>
           <span className="weekday">{weekday}</span>
-          <button>Save</button>
+          <button onClick={() => dispatch(saveMemoryEdit({...memory, entry}))}>Save</button>
           <button onClick={() => dispatch(cancelMemoryEdit(memory.id))}>Cancel</button>
           <button>Delete</button>
         </div>
