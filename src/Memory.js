@@ -1,7 +1,11 @@
-import React, {Fragment} from 'react';
+import React, {Fragment, useState} from 'react';
+import {useDispatch} from 'react-redux';
+import {startMemoryEdit, cancelMemoryEdit} from './actions';
 
 export function Memory(props) {
   const {memory} = props;
+  const dispatch = useDispatch();
+  const [entry, setEntry] = useState(memory.entry);
 
   const day = new Date(memory.year, memory.month - 1, memory.day);
 
@@ -14,14 +18,35 @@ export function Memory(props) {
     weekday: 'long'
   });
 
-  return (
-    <Fragment>
-      <div className="memory-left memory-cell">
-        <span className="year">{memory.year}</span>
-        <span className="month-day">{monthDay}</span>
-        <span className="weekday">{weekday}</span>
-      </div>
-      <div className="memory-right memory-cell">{memory.entry}</div>
-    </Fragment>
-  );
+  if (memory.isEditing) {
+     return (
+      <Fragment>
+        <div className="memory-left memory-cell">
+          <span className="year">{memory.year}</span>
+          <span className="month-day">{monthDay}</span>
+          <span className="weekday">{weekday}</span>
+          <button>Save</button>
+          <button onClick={() => dispatch(cancelMemoryEdit(memory.id))}>Cancel</button>
+          <button>Delete</button>
+        </div>
+        <div className="memory-right memory-cell">
+          <textarea  value={entry}
+        onChange={event => setEntry(event.target.value)} />
+        </div>
+      </Fragment>
+    );
+  }
+  else {
+    return (
+      <Fragment>
+        <div className="memory-left memory-cell">
+          <span className="year">{memory.year}</span>
+          <span className="month-day">{monthDay}</span>
+          <span className="weekday">{weekday}</span>
+          <button onClick={() => dispatch(startMemoryEdit(memory.id))}>Edit</button>
+        </div>
+        <div className="memory-right memory-cell">{memory.entry}</div>
+      </Fragment>
+    );
+  }
 }

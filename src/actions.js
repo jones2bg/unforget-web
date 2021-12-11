@@ -23,7 +23,17 @@ export function fetchDay(month, day) {
 
 export const Action = Object.freeze({
   ShowMemories: 'ShowMemories',
+  StartMemoryEdit: 'StartMemoryEdit',
+  CancelMemoryEdit: 'CancelMemoryEdit',
 });
+
+export function startMemoryEdit(id) {
+  return {type: Action.StartMemoryEdit, payload: id};
+}
+
+export function cancelMemoryEdit(id) {
+  return {type: Action.CancelMemoryEdit, payload: id};
+}
 
 export function showMemories(memories) {
   return {type: Action.ShowMemories, payload: memories};

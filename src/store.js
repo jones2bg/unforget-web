@@ -9,6 +9,28 @@ function reducer(state, action) {
         ...state,
         memories: action.payload,
       };
+    case Action.StartMemoryEdit:
+      return {
+        ...state,
+        memories: state.memories.map(memory => {
+          if (memory.id === action.payload) {
+            return {...memory, isEditing: true};
+          } else {
+            return memory;
+          }
+        }),
+      };
+    case Action.CancelMemoryEdit:
+      return {
+        ...state,
+        memories: state.memories.map(memory => {
+          if (memory.id === action.payload) {
+            return {...memory, isEditing: false};
+          } else {
+            return memory;
+          }
+        }),
+      };
     default:
       return state;
   }
@@ -22,6 +44,7 @@ const initialState = {
       month: 9,
       day: 21,
       entry: "Today I had a soccer tournament. I was about to score a goal when lightning struck the ball. Now my hair won't settle down.",
+      isEditing: true,
     },
     {
       id: 2,
@@ -29,6 +52,7 @@ const initialState = {
       month: 9,
       day: 21,
       entry: "It's been a year since the lightning incident, and my hair hasn't changed.",
+      isEditing: true,
     },
   ],
 };

@@ -37,3 +37,17 @@
 .memory-right {
   background-color: linen;
 }
+
+.toolbar {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  justify-items: start;
+  margin-bottom: 10px;
+}
+
+.month-day-picker {
+  justify-self: center;
+  display: flex;
+  flex-direction: row;
+  gap: 3px;
+}
